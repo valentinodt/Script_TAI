@@ -5,12 +5,12 @@ $defaultGateway = "192.168.1.1"
 $dnsServer = "127.0.0.1" # Adresse IP du serveur DNS local
 
 # Configuration de l'adresse IP statique sur la carte réseau
-Write-Output "Configuration de l'adresse IP statique sue la carte réseau..."
+Write-Host "Configuration de l'adresse IP statique sue la carte réseau..."
 New-NetIPAddress -InterfaceAlias "Ethernet" -IPAddress $ipv4Address -Prefix 24 -DefaultGateway $defaultGateway
 
 
 # Configuration des serveurs DNS
-Write-Output "Configuration des serveurs DNS..."
+Write-Host "Configuration des serveurs DNS..."
 Set-DnsClientServerAdress -InterfaceAlias "Ethernet" -ServerAddresses $dnsServer
 
 
@@ -19,20 +19,31 @@ Start-Sleep -Seconds 10
 
 
 # Renommer le PC en SRV-DNS avant de redémarrer
-Write-Output "Renommage du PC en SRV-DNS..."
+Write-Host "Renommage du PC en SRV-DNS..."
 Rename-Computer -NewName "SRV-DNS" -Force
 
 
 # Installer le rôle DNS
-Write-Output "Installation du rôle DNS..."
+Write-Host "Installation du rôle DNS..."
 Install-WindowsFeature -Name DNS -IncludeManagementTools -Restart
 
 
 # Attendre le redémarrage du serveur 
-Write-Output "En attente du redémarrage du serveur..."
+Write-Host "En attente du redémarrage du serveur..."
 Start-Sleep -Seconds 60
 
 
 # Importer le module DNS
-Write-Output "Importation du module DNS..."
+Write-Host "Importation du module DNS..."
 Import-Modules DnsServer
+
+
+# Configurer les zonrs Forward Lookup et Reverses Lookup principales
+$forwardZoneName = "exemple.local"
+$reverseZoneName = "192.168.1.0/24"
+
+Write-Host "Création de la zone Forward Lookup '$forwardZoneName'..."
+Add-DnsServerPrimaryZone -Name $forwardZoneName -ReplicationScope Forest
+
+
+Write-Host
