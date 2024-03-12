@@ -32,5 +32,14 @@ $PrimaryDNSServer = "8.8.8.8"
 $LeaseDuration = New-TimeSpan -Hours 8
 $ExclusionRangeBegin = "192.168.1.200"
 $ExclusionRangeEnd = "192.168.1.210"
-$DnsDomainName = "exemple.local
+$DnsDomainName = "exemple.local"
 $ScopeId = @(, $ScopeStartAddress, $ScopeSubnetMask)
+
+
+# Configuration des options d'étendue DHCP
+try {
+    Add-DgcpServerv4Scope -Name "Lan-Scope" -ScopeId $ScopeStartAddress -StartRange $ExclusionRangeBegin -EndRange $ExclusionRangeEnd
+} catch {
+    Write-Error $_.Exception.message
+    Exit 1
+}
