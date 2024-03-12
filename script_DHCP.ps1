@@ -11,3 +11,11 @@ if ($installResult.RestartNeeded -eq "Oui") {
     Restart-Computer
     exit
 }
+
+# ************************************************** #
+
+# Importation du module DHCP
+Import-Module DhcpServer
+
+# Vérification de l'installation du rôle DHCP
+if(!(Get-WindowsFeature DHCP -ErrorAction Stop))
