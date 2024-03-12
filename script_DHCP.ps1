@@ -18,7 +18,7 @@ if ($installResult.RestartNeeded -eq "Oui") {
 Import-Module DhcpServer
 
 # Vérification de l'installation du rôle DHCP
-if(!(Get-WindowsFeature DHCP -ErrorAction Stop)) {
+if (!(Get-WindowsFeature DHCP -ErrorAction Stop)) {
     Write-Error "Le rôle DHCP n'est pas installé"
     Exit 1
 }
@@ -40,7 +40,8 @@ $ScopeId = @(, $ScopeStartAddress, $ScopeSubnetMask)
 # Création d'une nouvelle étendue DHCP
 try {
     Add-DhcpServerv4Scope -Name "LAN-Scope" -StartRange $ScopeStartAddress -EndRange $ScopeEndAddress -SubnetMask $ScopeSubnetMask
-} catch {
+}
+catch {
     Write-Error $_.Exception.Message
     Exit 1
 }
@@ -49,7 +50,8 @@ try {
 # Configuration des options d'étendue DHCP
 try {
     Set-DhcpServerv4OptionValue -ScopeId $ScopeId -Router $DefaultGateway -DnsServer $PrimaryDNSServer, $SecondaryDNSServer -DnsDomainName $DnsDomainName
-} catch {
+}
+catch {
     Write-Error $_.Exception.Message
     Exit 1
 }
@@ -58,7 +60,8 @@ try {
 # Configuration de la durée du bail d'adresse IP
 try {
     Set-DhcpServerv4Scope -ScopeId $ScopeStartAddress -LeaseDuration $LeaseDuration
-} catch {
+}
+catch {
     Write-Error $_.Exception.Message
     Exit 1
 }
@@ -67,7 +70,8 @@ try {
 # Ajout d'une plage d'adresses IP exclues
 try {
     Add-DhcpServerv4ExclusionRange -ScopeId $ScopeStartAddress -StartRange $ExclusionRangeBegin -EndRange $ExclusionRangeEnd
-} catch {
+}
+catch {
     Write-Error $_.Exception.Message
     Exit 1
 }
@@ -77,7 +81,8 @@ try {
 try {
     Backup-DhcpServer -Path "$env:USERPROFILE\Documents\DHCP_Backup"
     Write-Output "La sauvegarde de la base de données DHCP a été sauvegardée avec succès"    
-} catch {
+}
+catch {
     Write-Error "La sauvegarde de la base de données DHCP à échoué : $_.Exception.message"
     Exit 1    
 }
