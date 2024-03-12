@@ -88,4 +88,23 @@ catch {
 }
 
 
+# Confirmation de la configuration
+try {
+    $ScopeConfig = Get-DhcpServerv4Scope -ScopeId $ScopeStartAddress
+    Write-Output "Configuration du serveur DHCP terminée avec succès"
+    Write-Output "Nom de l'étendue  : $($ScopeConfig.Name)"
+    Write-Output "Plage d'adresse : $($ScopeConfig.StartRange)" à $($ScopeConfig.EndRange)
+    Write-Output "Masque de sous-réseau : $($ScopeConfig.SubnetMask)"
+    Write-Output "Passerelle par défaut : $DefaultGateway"
+    Write-Output "Serveurs DNS : $PrimaryDNSServer, $SecondaryDNSServer"
+    Write-Output "Durée du bail : $($LeaseDuration.ToString())"
+    Write-Output "Plage d'exclusion : $ExclusionRangeBegin à $ExclusionRangeEnd"
+    Write-Output "Nom de domaine DNS : $DNSDomainName"
+}
+catch {
+    Write-Error "Impossible d'afficher la configuration du serveur DHCP : $_.Exception.message"
+    Exit 1    
+}
+
+
 
