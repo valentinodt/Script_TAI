@@ -64,4 +64,13 @@ try {
 }
 
 
+# Ajout d'une plage d'adresses IP exclues
+try {
+    Add-DhcpServerv4ExclusionRange -ScopeId $ScopeStartAddress -StartRange $ExclusionRangeBegin -EndRange $ExclusionRangeEnd
+}catch {
+    Write-Error $_.Exception.Message
+    Exit 1
+}
+
+
 
