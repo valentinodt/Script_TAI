@@ -6,5 +6,8 @@ $installResult = Install-WindowsFeature -Name DHCP -IncludeManagementTools
 if ($installResult.RestartNeeded -eq "Oui") {
     Write-Output "Un redémarrage est nécessaire pour terminer l'insatallation. Le serveur va redémarrer..."
     # Renommer le serveur en "SRV-DHCP" avant de redémarrer
-
+    Rename-Computer -NewName "SRV-DHCP" -Force
+    # Le script s'arrête ici, et vous devez redémarrer manuellement le serveur
+    Restart-Computer
+    exit
 }
