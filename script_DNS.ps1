@@ -45,5 +45,8 @@ $reverseZoneName = "192.168.1.0/24"
 Write-Host "Création de la zone Forward Lookup '$forwardZoneName'..."
 Add-DnsServerPrimaryZone -Name $forwardZoneName -ReplicationScope Forest
 
+Write-Host "Création de la zone Reverse Lookup '$reverseZoneName'..."
+Add-DnsServerPrimaryZone -NetworkId ($reverseZoneName.Split('/'))[0] -Name $reverseZoneName -ReplicationScope Forest
 
-Write-Host
+
+Write-Host "La configuration du serveur DNS s'est correctement terminée !"
