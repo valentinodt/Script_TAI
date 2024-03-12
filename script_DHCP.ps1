@@ -58,7 +58,7 @@ try {
 # Configuration de la durée du bail d'adresse IP
 try {
     Set-DhcpServerv4Scope -ScopeId $ScopeStartAddress -LeaseDuration $LeaseDuration
-}catch {
+} catch {
     Write-Error $_.Exception.Message
     Exit 1
 }
@@ -67,7 +67,7 @@ try {
 # Ajout d'une plage d'adresses IP exclues
 try {
     Add-DhcpServerv4ExclusionRange -ScopeId $ScopeStartAddress -StartRange $ExclusionRangeBegin -EndRange $ExclusionRangeEnd
-}catch {
+} catch {
     Write-Error $_.Exception.Message
     Exit 1
 }
@@ -77,7 +77,7 @@ try {
 try {
     Backup-DhcpServer -Path "$env:USERPROFILE\Documents\DHCP_Backup"
     Write-Output "La sauvegarde de la base de données DHCP a été sauvegardée avec succès"    
-}catch {
+} catch {
     Write-Error "La sauvegarde de la base de données DHCP à échoué : $_.Exception.message"
     Exit 1    
 }
