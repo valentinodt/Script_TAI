@@ -1,3 +1,10 @@
 # Mettre à jour le système et installer le rôle DHCP
 Write-Output "Mise à jour le système et installation du rôle DHCP..."
-$installResult = Install-WindowsFeature -Name DHCP -IncludeManagementTools 
+$installResult = Install-WindowsFeature -Name DHCP -IncludeManagementTools
+
+# Vérifier si le redémarrage est nécessaire
+if ($installResult.RestartNeeded -eq "Oui") {
+    Write-Output "Un redémarrage est nécessaire pour terminer l'insatallation. Le serveur va redémarrer..."
+    # Renommer le serveur en "SRV-DHCP" avant de redémarrer
+
+}
