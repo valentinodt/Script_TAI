@@ -36,10 +36,14 @@ $DnsDomainName = "exemple.local"
 $ScopeId = @(, $ScopeStartAddress, $ScopeSubnetMask)
 
 
-# Configuration des options d'étendue DHCP
+# Création d'une nouvelle étendue DHCP
 try {
     Add-DgcpServerv4Scope -Name "Lan-Scope" -ScopeId $ScopeStartAddress -StartRange $ExclusionRangeBegin -EndRange $ExclusionRangeEnd
 } catch {
     Write-Error $_.Exception.message
     Exit 1
 }
+
+
+
+
